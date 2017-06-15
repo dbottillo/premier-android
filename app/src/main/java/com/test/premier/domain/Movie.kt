@@ -1,5 +1,3 @@
 package com.test.premier.domain
 
-data class Movie(val id: String){
-
-}
+data class Movie(val title: String, val text: String, val image: String)

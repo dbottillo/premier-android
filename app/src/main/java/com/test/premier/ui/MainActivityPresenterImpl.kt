@@ -30,7 +30,7 @@ class MainActivityPresenterImpl(val interactor: MoviesInteractor): MainActivityP
         view.showImpossibileToFetchMovies()
     }
 
-    fun onDestroy(){
+   override fun onDestroy(){
         disposable?.dispose()
     }
 }
