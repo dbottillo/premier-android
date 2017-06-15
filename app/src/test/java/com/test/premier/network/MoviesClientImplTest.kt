@@ -1,18 +1,16 @@
 package com.test.premier.network
 
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import io.reactivex.Observable
+import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.junit.MockitoJUnit
-import rx.Observable
+import rx.Subscription
 
-class MoviesClientImplTest{
+class MoviesClientImplTest {
 
     @Rule @JvmField
     val rule = MockitoJUnit.rule()!!
@@ -21,22 +19,22 @@ class MoviesClientImplTest{
     lateinit var service: TheMovieDbService
 
     @Mock
-    lateinit var response: Observable<MoviesResponse>
+    lateinit var observable: Observable<MoviesResponse>
 
     internal lateinit var underTest: MoviesClient
 
     @Before
     fun setUp() {
         underTest = MoviesClientImpl(service)
-        Mockito.`when`(service.getTopRatedMovies()).thenReturn(response)
+        //Mockito.`when`(observable.)
     }
 
     @Test
     fun `when top movies are requested, should call retrofit service and return response`() {
+        Mockito.`when`(service.getTopRatedMovies()).thenReturn(observable)
+
         val result = underTest.requestTopMovies()
 
-        assertThat(result, `is`(response))
-        verify(service).getTopRatedMovies()
-        verifyNoMoreInteractions(service)
+        assertTrue(result is Subscription)
     }
 }
