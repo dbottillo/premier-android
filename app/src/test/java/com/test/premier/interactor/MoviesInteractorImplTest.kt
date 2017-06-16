@@ -42,8 +42,8 @@ class MoviesInteractorImplTest {
     @Test
     fun `when top movies are requested, should call retrofit service and return response`() {
         val movieResponse = MoviesResponse(0, 0, 0, listOf(
-                MovieResponse("id1", "title1", "backdrop1", "Overview1", "release date1"),
-                MovieResponse("id2", "title2", "backdrop2", "Overview2", "release date2")))
+                MovieResponse("id1", "title1", "/backdrop1", "Overview1", "release date1"),
+                MovieResponse("id2", "title2", "/backdrop2", "Overview2", "release date2")))
         Mockito.`when`(client.fetchTopMovies()).thenReturn(Observable.just(movieResponse))
 
         val result = underTest.requestTopMovies()
@@ -56,10 +56,10 @@ class MoviesInteractorImplTest {
         val listResult = testObserver.values()[0]
         assertThat(listResult.size, `is`(2))
         assertThat(listResult[0].title, `is`("title1"))
-        assertThat(listResult[0].image, `is`("backdrop1"))
+        assertThat(listResult[0].image, `is`("https://image.tmdb.org/t/p/w342/backdrop1"))
         assertThat(listResult[0].text, `is`("Overview1"))
         assertThat(listResult[1].title, `is`("title2"))
-        assertThat(listResult[1].image, `is`("backdrop2"))
+        assertThat(listResult[1].image, `is`("https://image.tmdb.org/t/p/w342/backdrop2"))
         assertThat(listResult[1].text, `is`("Overview2"))
     }
 

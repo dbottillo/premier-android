@@ -6,5 +6,5 @@ interface MainActivityView {
     fun showLoading()
     fun showMovies(movies: List<Movie>)
     fun hideLoading()
-    fun showImpossibileToFetchMovies()
+    fun showImpossibleToFetchMovies()
 }

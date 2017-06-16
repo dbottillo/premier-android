@@ -29,7 +29,7 @@ class MainActivityPresenterImpl(val interactor: MoviesInteractor): MainActivityP
 
     fun onError() {
         view.hideLoading()
-        view.showImpossibileToFetchMovies()
+        view.showImpossibleToFetchMovies()
     }
 
    override fun onDestroy(){

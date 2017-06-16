@@ -2,7 +2,14 @@ package com.test.premier.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.Toast
 import com.test.premier.PremierApp
 
 import com.test.premier.R
@@ -12,7 +19,8 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainActivityView {
 
-    private val TOP_RATED = "https://api.themoviedb.org/3/movie/top_rated?api_key=e4f9e61f6ffd66639d33d3dde7e3159b"
+    lateinit var loader: ProgressBar
+    lateinit var list: RecyclerView
 
     @Inject
     lateinit var presenter: MainActivityPresenter
@@ -20,6 +28,12 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        loader = findViewById(R.id.loader) as ProgressBar
+        list = findViewById(R.id.list) as RecyclerView
+
+        list.setHasFixedSize(true)
+        list.layoutManager = LinearLayoutManager(this)
 
         val uiComponent = DaggerUIComponent.builder().appComponent((application as PremierApp).appComponent).build()
         uiComponent.inject(this)
@@ -35,18 +49,20 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     override fun showLoading() {
-        Log.e("PremierApp", "showLoading") //To change body of created functions use File | Settings | File Templates.
+        loader.visibility = View.VISIBLE
+        list.visibility = View.INVISIBLE
     }
 
     override fun showMovies(movies: List<Movie>) {
-        Log.e("PremierApp", "movies $movies") //To change body of created functions use File | Settings | File Templates.
+        list.adapter = MoviesAdapter(movies)
     }
 
     override fun hideLoading() {
-        Log.e("PremierApp", "hideLoading") //To change body of created functions use File | Settings | File Templates.
+        loader.visibility = View.INVISIBLE
+        list.visibility = View.VISIBLE
     }
 
-    override fun showImpossibileToFetchMovies() {
-        Log.e("PremierApp", "showLoading") //To change body of created functions use File | Settings | File Templates.
+    override fun showImpossibleToFetchMovies() {
+        Toast.makeText(this, R.string.impossibile_load_movies, Toast.LENGTH_SHORT).show()
     }
 }

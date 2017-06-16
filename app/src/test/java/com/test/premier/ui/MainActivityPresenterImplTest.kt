@@ -66,7 +66,7 @@ class MainActivityPresenterImplTest {
         underTest.onError()
 
         verify(view).hideLoading()
-        verify(view).showImpossibileToFetchMovies()
+        verify(view).showImpossibleToFetchMovies()
         verifyNoMoreInteractions(view, interactor)
     }
 

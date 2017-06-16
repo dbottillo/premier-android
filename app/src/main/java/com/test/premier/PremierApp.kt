@@ -7,6 +7,10 @@ import com.test.premier.dagger.DaggerAppComponent
 
 class PremierApp : Application() {
 
+    companion object{
+        val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w342"
+    }
+
     lateinit var appComponent: AppComponent
 
     override fun onCreate() {
