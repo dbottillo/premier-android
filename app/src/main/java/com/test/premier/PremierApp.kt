@@ -8,6 +8,7 @@ import com.test.premier.dagger.DaggerAppComponent
 class PremierApp : Application() {
 
     companion object{
+        val BASE_SERVER_URL = "https://api.themoviedb.org/3/"
         val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w342"
     }
 

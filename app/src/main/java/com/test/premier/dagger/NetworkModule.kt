@@ -1,5 +1,6 @@
 package com.test.premier.dagger
 
+import com.test.premier.PremierApp
 import com.test.premier.network.MoviesClient
 import com.test.premier.network.MoviesClientImpl
 import com.test.premier.network.TheMovieDbService
@@ -26,7 +27,7 @@ class NetworkModule {
     fun providesMoviesService(client: OkHttpClient): TheMovieDbService {
         val retrofit = Retrofit.Builder()
                 .client(client)
-                .baseUrl("https://api.themoviedb.org/3/")
+                .baseUrl(PremierApp.BASE_SERVER_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
