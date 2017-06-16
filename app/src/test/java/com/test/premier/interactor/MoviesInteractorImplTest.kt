@@ -16,6 +16,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnit
 
+
 class MoviesInteractorImplTest {
 
     @Rule @JvmField
@@ -26,13 +27,7 @@ class MoviesInteractorImplTest {
     @Mock
     lateinit var client: MoviesClient
 
-    @Mock
-    lateinit var observable: Observable<MoviesResponse>
-
     internal lateinit var underTest: MoviesInteractor
-
-    @Mock
-    lateinit var movies: List<Movie>
 
     @Before
     fun setUp() {
@@ -40,7 +35,7 @@ class MoviesInteractorImplTest {
     }
 
     @Test
-    fun `when top movies are requested, should call retrofit service and return response`() {
+    fun `when top movies are requested, should call client and return response`() {
         val movieResponse = MoviesResponse(0, 0, 0, listOf(
                 MovieResponse("id1", "title1", "/backdrop1", "Overview1", "release date1"),
                 MovieResponse("id2", "title2", "/backdrop2", "Overview2", "release date2")))
@@ -62,6 +57,4 @@ class MoviesInteractorImplTest {
         assertThat(listResult[1].image, `is`("https://image.tmdb.org/t/p/w342/backdrop2"))
         assertThat(listResult[1].text, `is`("Overview2"))
     }
-
-
 }
