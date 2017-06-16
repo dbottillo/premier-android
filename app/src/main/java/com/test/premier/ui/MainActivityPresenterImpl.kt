@@ -1,11 +1,10 @@
 package com.test.premier.ui
 
 import com.test.premier.domain.Movie
-import com.test.premier.interactor.MoviesCallback
 import com.test.premier.interactor.MoviesInteractor
 import io.reactivex.disposables.Disposable
 
-class MainActivityPresenterImpl(val interactor: MoviesInteractor): MainActivityPresenter, MoviesCallback {
+class MainActivityPresenterImpl(val interactor: MoviesInteractor): MainActivityPresenter {
 
     lateinit var view: MainActivityView
 
@@ -17,15 +16,18 @@ class MainActivityPresenterImpl(val interactor: MoviesInteractor): MainActivityP
 
     override fun requestTopMovies() {
         view.showLoading()
-        disposable = interactor.requestTopMovies(this)
+        disposable = interactor.requestTopMovies().subscribe (
+            { movies -> onSuccess(movies) },
+            { _ -> onError() }
+        )
     }
 
-    override fun onSuccess(movies: List<Movie>) {
+    fun onSuccess(movies: List<Movie>) {
         view.hideLoading()
         view.showMovies(movies)
     }
 
-    override fun onError() {
+    fun onError() {
         view.hideLoading()
         view.showImpossibileToFetchMovies()
     }

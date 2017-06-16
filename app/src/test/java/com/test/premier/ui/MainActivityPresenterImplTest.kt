@@ -1,13 +1,9 @@
 package com.test.premier.ui
 
 import com.test.premier.domain.Movie
-import com.test.premier.interactor.MoviesCallback
 import com.test.premier.interactor.MoviesInteractor
-import com.test.premier.interactor.MoviesInteractorImpl
 import com.test.premier.network.MoviesClient
-import com.test.premier.network.MoviesResponse
-import io.reactivex.disposables.Disposable
-import org.junit.Assert.*
+import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +12,6 @@ import org.mockito.Mockito
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.verifyNoMoreInteractions
 import org.mockito.junit.MockitoJUnit
-import rx.Observable
 
 class MainActivityPresenterImplTest {
 
@@ -36,7 +31,7 @@ class MainActivityPresenterImplTest {
     lateinit var movies: List<Movie>
 
     @Mock
-    lateinit var disposable: Disposable
+    lateinit var observable: Observable<List<Movie>>
 
     internal lateinit var underTest: MainActivityPresenterImpl
 
@@ -48,12 +43,12 @@ class MainActivityPresenterImplTest {
 
     @Test
     fun `when top movies are requested, should call interactor and display loading view`() {
-        Mockito.`when`(interactor.requestTopMovies(underTest)).thenReturn(disposable)
+        Mockito.`when`(interactor.requestTopMovies()).thenReturn(observable)
 
         underTest.requestTopMovies()
 
         verify(view).showLoading()
-        verify(interactor).requestTopMovies(underTest)
+        verify(interactor).requestTopMovies()
         verifyNoMoreInteractions(view, interactor)
     }
 
@@ -74,4 +69,5 @@ class MainActivityPresenterImplTest {
         verify(view).showImpossibileToFetchMovies()
         verifyNoMoreInteractions(view, interactor)
     }
+
 }
